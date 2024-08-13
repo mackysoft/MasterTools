@@ -21,11 +21,11 @@ namespace MackySoft.MasterTools
 			stringBuilder.Append('[');
 
 			int lastCellNum = valueRow.LastCellNum - 1;
-			for (int j = valueRow.FirstCellNum; j <= lastCellNum; j++)
+			for (int i = valueRow.FirstCellNum; i <= lastCellNum; i++)
 			{
-				ICell cell = valueRow.GetCell(j);
+				ICell cell = valueRow.GetCell(i);
 				stringBuilder.Append(cell.GetCellValueAsFormattable());
-				if (j < lastCellNum)
+				if (i < lastCellNum)
 				{
 					stringBuilder.Append(',');
 				}
@@ -49,14 +49,18 @@ namespace MackySoft.MasterTools
 			{
 				throw new ArgumentNullException(nameof(nameRow));
 			}
+			if ((nameRow.LastCellNum - nameRow.FirstCellNum) < (valueRow.LastCellNum - valueRow.FirstCellNum))
+			{
+				throw new ArgumentException($"{nameof(nameRow)} must have the same or more cells than {nameof(valueRow)}.");
+			}
 
 			stringBuilder.Append('[');
 
 			int lastCellNum = valueRow.LastCellNum - 1;
-			for (int j = valueRow.FirstCellNum; j <= lastCellNum; j++)
+			for (int i = valueRow.FirstCellNum; i <= lastCellNum; i++)
 			{
-				ICell cell = valueRow.GetCell(j);
-				ICell nameCell = nameRow.GetCell(j);
+				ICell cell = valueRow.GetCell(i);
+				ICell nameCell = nameRow.GetCell(i);
 				
 				stringBuilder
 					.Append('"')
@@ -64,7 +68,7 @@ namespace MackySoft.MasterTools
 					.Append("\":")
 					.Append(cell.GetCellValueAsFormattable());
 
-				if (j < lastCellNum)
+				if (i < lastCellNum)
 				{
 					stringBuilder.Append(',');
 				}

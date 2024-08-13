@@ -4,28 +4,19 @@ using System.IO;
 using System.Text;
 using NPOI.SS.UserModel;
 
-namespace MackySoft.MasterTools.Readers
+namespace MackySoft.MasterTools
 {
 	public sealed class XlsxTableReader : ITableReader
 	{
 
-		readonly string m_FilePath;
-		readonly string m_SheetName;
-
-		public XlsxTableReader (string filePath, string sheetName)
+		public List<string> Read (TableContext context)
 		{
-			m_FilePath = !string.IsNullOrEmpty(filePath) ? filePath : throw new ArgumentException($"{nameof(filePath)} is null or empty.", nameof(filePath));
-			m_SheetName = !string.IsNullOrEmpty(sheetName) ? sheetName : throw new ArgumentException($"{nameof(sheetName)} is null or empty.", nameof(sheetName));
-		}
-
-		public List<string> Read ()
-		{
-			string pathWithExtension = Path.ChangeExtension(m_FilePath, ".xlsx");
+			string pathWithExtension = Path.ChangeExtension(context.FilePath, ".xlsx");
 			using IWorkbook workbook = WorkbookFactory.Create(pathWithExtension);
-			ISheet sheet = workbook.GetSheet(m_SheetName);
+			ISheet sheet = workbook.GetSheet(context.SheetName);
 			if (sheet == null)
 			{
-				throw new Exception($"Sheet '{m_SheetName}' not found in '{pathWithExtension}'.");
+				throw new Exception($"Sheet '{context.SheetName}' not found in '{pathWithExtension}'.");
 			}
 			IRow nameRow = sheet.GetRow(0);
 
@@ -38,6 +29,7 @@ namespace MackySoft.MasterTools.Readers
 				IRow row = sheet.GetRow(i);
 				jsonBuilder.Clear();
 				jsonBuilder.AppendObjectFromRowWithName(row, nameRow);
+
 				list.Add(jsonBuilder.ToString());
 			}
 

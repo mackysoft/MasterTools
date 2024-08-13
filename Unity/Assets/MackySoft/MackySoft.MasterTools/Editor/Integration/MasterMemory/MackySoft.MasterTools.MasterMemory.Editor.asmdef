@@ -1,0 +1,19 @@
+{
+    "name": "MackySoft.MasterTools.MasterMemory",
+    "rootNamespace": "MackySoft.MasterTools",
+    "references": [
+        "GUID:539b17b2cf03a484aaed72779ba7a13a",
+        "GUID:0632cc6b22db61d41898dfef78dc32f5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

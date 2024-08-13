@@ -1,0 +1,19 @@
+{
+    "name": "MackySoft.MasterTools.MessagePack.Editor",
+    "rootNamespace": "MackySoft.MasterTools",
+    "references": [
+        "GUID:bbde805d927e795439d7a746d1749cab",
+        "GUID:539b17b2cf03a484aaed72779ba7a13a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
