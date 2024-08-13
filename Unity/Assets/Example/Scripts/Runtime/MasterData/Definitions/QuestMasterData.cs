@@ -19,5 +19,11 @@ namespace MackySoft.MasterTools.Example
 
         [Key(1)]
         public string Name { get; private set; }
+
+        public QuestMasterData(int Id, string Name)
+        {
+            this.Id = Id;
+            this.Name = Name;
+        }
     }
 }
