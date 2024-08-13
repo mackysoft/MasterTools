@@ -1,13 +1,10 @@
 using MasterMemory;
 using MessagePack;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace MackySoft.MasterTools.Example
 {
 
-    [TableReader("Quest")]
+    [ImportTableFrom("Quest")]
     [MemoryTable("Quest")]
     [MessagePackObject]
     public sealed class QuestMasterData
