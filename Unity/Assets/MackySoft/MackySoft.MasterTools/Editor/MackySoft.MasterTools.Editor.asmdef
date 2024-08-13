@@ -1,0 +1,20 @@
+{
+    "name": "MackySoft.MasterTools.Editor",
+    "rootNamespace": "MackySoft.MasterTools",
+    "references": [
+        "GUID:d5ae203f74bc6684b9dc77ad49586d6d",
+        "GUID:bbde805d927e795439d7a746d1749cab",
+        "GUID:0632cc6b22db61d41898dfef78dc32f5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

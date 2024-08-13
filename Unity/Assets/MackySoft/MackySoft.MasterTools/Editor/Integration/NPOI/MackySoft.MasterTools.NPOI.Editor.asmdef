@@ -1,0 +1,24 @@
+{
+    "name": "MackySoft.MasterTools.NPOI.Editor",
+    "rootNamespace": "MackySoft.MasterTools",
+    "references": [
+        "GUID:d5ae203f74bc6684b9dc77ad49586d6d",
+        "GUID:539b17b2cf03a484aaed72779ba7a13a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "NPOI.Core.dll",
+        "NPOI.OOXML.dll",
+        "NPOI.OpenXml4Net.dll",
+        "NPOI.OpenXmlFormats.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

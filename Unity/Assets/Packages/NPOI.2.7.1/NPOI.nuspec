@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>NPOI</id>
+    <version>2.7.1</version>
+    <title>NPOI</title>
+    <authors>Tony Qu,NPOI Contributors</authors>
+    <owners>Nissl Lab</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <icon>logo\60_60.jpg</icon>
+    <projectUrl>https://github.com/nissl-lab/npoi</projectUrl>
+    <description>.NET port of Apache POI | Contact us on telegram: https://t.me/npoidevs</description>
+    <summary>NPOI can read and write xls (Excel 97-2003), xlsx(Excel 2007+) and docx(Word 2007+)</summary>
+    <releaseNotes>https://github.com/nissl-lab/npoi/discussions/1344</releaseNotes>
+    <copyright>Nissl LLC</copyright>
+    <tags>xlsx xls Excel Word docx office ole</tags>
+    <repository type="git" url="https://github.com/nissl-lab/npoi" branch="pr1378" commit="ccb8719b36b43eac9fb205e794a011e34f191534" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="Enums.NET" version="4.0.1" />
+        <dependency id="ExtendedNumerics.BigDecimal" version="2025.1001.2.129" />
+        <dependency id="MathNet.Numerics.Signed" version="5.0.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.0" />
+        <dependency id="BouncyCastle.Cryptography" version="2.3.1" />
+        <dependency id="SharpZipLib" version="1.4.2" />
+        <dependency id="SixLabors.Fonts" version="1.0.1" />
+        <dependency id="SixLabors.ImageSharp" version="2.1.8" />
+        <dependency id="System.Security.Cryptography.Xml" version="6.0.1" />
+        <dependency id="System.Security.Cryptography.Pkcs" version="6.0.3" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Enums.NET" version="4.0.1" />
+        <dependency id="ExtendedNumerics.BigDecimal" version="2025.1001.2.129" />
+        <dependency id="MathNet.Numerics.Signed" version="5.0.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.0" />
+        <dependency id="BouncyCastle.Cryptography" version="2.3.1" />
+        <dependency id="SharpZipLib" version="1.4.2" />
+        <dependency id="SixLabors.Fonts" version="1.0.1" />
+        <dependency id="SixLabors.ImageSharp" version="2.1.8" />
+        <dependency id="System.Configuration.ConfigurationManager" version="6.0.0" />
+        <dependency id="System.Security.Cryptography.Xml" version="6.0.1" />
+        <dependency id="System.Security.Cryptography.Pkcs" version="6.0.3" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Enums.NET" version="4.0.1" />
+        <dependency id="ExtendedNumerics.BigDecimal" version="2025.1001.2.129" />
+        <dependency id="MathNet.Numerics.Signed" version="5.0.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.0" />
+        <dependency id="BouncyCastle.Cryptography" version="2.3.1" />
+        <dependency id="SharpZipLib" version="1.4.2" />
+        <dependency id="SixLabors.Fonts" version="1.0.1" />
+        <dependency id="SixLabors.ImageSharp" version="2.1.8" />
+        <dependency id="System.Configuration.ConfigurationManager" version="6.0.0" />
+        <dependency id="System.Security.Cryptography.Xml" version="6.0.1" />
+        <dependency id="System.Security.Cryptography.Pkcs" version="6.0.3" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="Enums.NET" version="4.0.1" />
+        <dependency id="ExtendedNumerics.BigDecimal" version="2025.1001.2.129" />
+        <dependency id="MathNet.Numerics.Signed" version="5.0.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="3.0.0" />
+        <dependency id="BouncyCastle.Cryptography" version="2.3.1" />
+        <dependency id="SharpZipLib" version="1.4.2" />
+        <dependency id="SixLabors.Fonts" version="1.0.1" />
+        <dependency id="SixLabors.ImageSharp" version="2.1.8" />
+        <dependency id="System.Configuration.ConfigurationManager" version="6.0.0" />
+        <dependency id="System.Security.Cryptography.Xml" version="6.0.1" />
+        <dependency id="System.Security.Cryptography.Pkcs" version="6.0.3" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

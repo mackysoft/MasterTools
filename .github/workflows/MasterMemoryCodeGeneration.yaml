@@ -1,0 +1,64 @@
+name: Run Code Generators
+
+on:
+  push:
+    paths:
+      - 'Unity/Assets/Scripts/MasterData/Definitions/**/*.cs'
+
+env:
+  MASTERDATA_NAMESPACE: MackySoft.MasterTools.Example.MasterData
+  MASTERDATA_DEFINITIONS_PATH: Unity/Assets/Scripts/MasterData/Definitions
+  MASTERDATA_GENERATED_PATH: Unity/Assets/Scripts/MasterData/Generated
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'
+
+      - name: Install MasterMemory Code Generator
+        run: dotnet tool install --global MasterMemory.Generator
+
+      - name: Install MessagePack Code Generator
+        run: dotnet tool install -g MessagePack.Generator
+
+      - name: Run MasterMemory Code Generator
+        run: dotnet mmgen -i "$MASTERDATA_DEFINITIONS_PATH" -o "$MASTERDATA_GENERATED_PATH" -c -n $MASTERDATA_NAMESPACE
+
+      - name: Run MessagePack Code Generator
+        run: mpc -i "$MASTERDATA_DEFINITIONS_PATH" -o "$MASTERDATA_GENERATED_PATH/Formatters" -n $MASTERDATA_NAMESPACE
+        
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git diff --staged --exit-code || echo "changed=1" >> $GITHUB_OUTPUT
+
+      - name: Commit files
+        if: steps.check_changes.outputs.changed == '1'
+        run: |
+          git commit -m "feat: Generate MasterMemory and MessagePack code" -a
+          echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Check sha
+        run: echo "SHA ${SHA}"
+        env:
+          SHA: ${{ steps.commit.outputs.sha }}
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: false

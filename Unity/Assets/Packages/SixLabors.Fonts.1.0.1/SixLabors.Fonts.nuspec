@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SixLabors.Fonts</id>
+    <version>1.0.1</version>
+    <authors>Six Labors and contributors</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <icon>sixlabors.fonts.128.png</icon>
+    <projectUrl>https://github.com/SixLabors/Fonts</projectUrl>
+    <description>A cross-platform library for loading and laying out fonts for processing and measuring; written in C#</description>
+    <copyright>Copyright © Six Labors</copyright>
+    <tags>font truetype opentype woff woff2</tags>
+    <repository type="git" url="https://github.com/SixLabors/Fonts" commit="be8883caf13f364292508274d68c39c2455ec3e2" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1" />
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.Memory" version="4.5.5" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
