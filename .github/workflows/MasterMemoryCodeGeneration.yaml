@@ -27,7 +27,7 @@ jobs:
           dotnet-version: '6.x'
 
       - name: Install MasterMemory Code Generator
-        run: dotnet tool install --global MasterMemory.Generator
+        run: dotnet tool install -g MasterMemory.Generator
 
       - name: Install MessagePack Code Generator
         run: dotnet tool install -g MessagePack.Generator
