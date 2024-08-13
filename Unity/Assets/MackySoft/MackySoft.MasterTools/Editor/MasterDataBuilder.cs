@@ -38,29 +38,34 @@ namespace MackySoft.MasterTools
 
 		public static MasterToolsOptions Options { get; set; } = new MasterToolsOptions();
 
-		[MenuItem("Tools/Master Tools/Import")]
+		[MenuItem("Tools/Master Tools/Import (with default options)")]
 		public static void Import ()
 		{
-			BuildContext buildContext = new BuildContext(
-				Options.GetDefaultOutputDirectoryFullPath()
-			);
-			IDatabaseBuilder builder = Options.DatabaseBuilderFactory.Create(buildContext);
+			Import(Options);
+		}
 
-			string tablesDirectory = Options.GetTablesDirectoryFullPath();
+		public static void Import (MasterToolsOptions options)
+		{
+			BuildContext buildContext = new BuildContext(
+				options.GetDefaultOutputDirectoryFullPath()
+			);
+			IDatabaseBuilder builder = options.DatabaseBuilderFactory.Create(buildContext);
+
+			string tablesDirectory = options.GetTablesDirectoryFullPath();
 			foreach (TableReaderInfo info in GetTableReaderInfos())
 			{
 				TableContext tableContext = new TableContext(
 					info.DataType,
 					Path.Combine(tablesDirectory, info.Attribute.FilePath),
-					!string.IsNullOrEmpty(info.Attribute.SheetName) ? info.Attribute.SheetName : Options.DefaultSheetName
+					!string.IsNullOrEmpty(info.Attribute.SheetName) ? info.Attribute.SheetName : options.DefaultSheetName
 				);
 
-				List<string> jsonData = Options.TableReader.Read(tableContext);
-				
+				List<string> jsonData = options.TableReader.Read(tableContext);
+
 				List<object> tableData = new List<object>();
 				for (int i = 0; i < jsonData.Count; i++)
 				{
-					object obj = Options.JsonDeserializer.Deserialize(tableContext.DataType, jsonData[i]);
+					object obj = options.JsonDeserializer.Deserialize(tableContext.DataType, jsonData[i]);
 					tableData.Add(obj);
 				}
 
