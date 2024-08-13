@@ -5,9 +5,7 @@ using MasterMemory.Validation;
 using MasterMemory;
 using MessagePack;
 using System.Collections.Generic;
-using System.Collections;
 using System;
-using UnityEngine;
 
 namespace MackySoft.MasterTools.Example.MasterData.Tables
 {
