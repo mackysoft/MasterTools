@@ -1,6 +1,7 @@
 name: Run Code Generators
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'Unity/Assets/Example/Scripts/Runtime/MasterData/Definitions/**/*.cs'
