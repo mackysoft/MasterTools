@@ -3,12 +3,12 @@ name: Run Code Generators
 on:
   push:
     paths:
-      - 'Unity/Assets/Scripts/MasterData/Definitions/**/*.cs'
+      - 'Unity/Assets/Example/Scripts/Runtime/MasterData/Definitions/**/*.cs'
 
 env:
   MASTERDATA_NAMESPACE: MackySoft.MasterTools.Example.MasterData
-  MASTERDATA_DEFINITIONS_PATH: Unity/Assets/Scripts/MasterData/Definitions
-  MASTERDATA_GENERATED_PATH: Unity/Assets/Scripts/MasterData/Generated
+  MASTERDATA_DEFINITIONS_PATH: Unity/Assets/Example/Scripts/Runtime/MasterData/Definitions
+  MASTERDATA_GENERATED_PATH: Unity/Assets/Example/Scripts/Runtime/MasterData/Generated
 
 jobs:
   generate:
