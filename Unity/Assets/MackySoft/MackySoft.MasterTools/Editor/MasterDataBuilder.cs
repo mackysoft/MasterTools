@@ -1,6 +1,4 @@
 ﻿using System;
-using MasterMemory;
-using MessagePack;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,18 +8,31 @@ using UnityEngine;
 
 namespace MackySoft.MasterTools
 {
-	public readonly struct TableReadContext
+	public readonly struct TableContext
 	{
 
+		public Type DataType { get; }
 		public string FilePath { get; }
 		public string SheetName { get; }
 
-		public TableReadContext (string filePath, string sheetName)
+		public TableContext (Type dataType, string filePath, string sheetName)
 		{
+			DataType = dataType;
 			FilePath = filePath;
 			SheetName = sheetName;
 		}
 	}
+
+	public readonly struct BuildContext
+	{
+		public string OutputDirectoryPath { get; }
+
+		public BuildContext (string outputDirectoryPath)
+		{
+			OutputDirectoryPath = !string.IsNullOrEmpty(outputDirectoryPath) ? outputDirectoryPath : throw new ArgumentException($"{nameof(outputDirectoryPath)} is null or empty.", nameof(outputDirectoryPath));
+		}
+	}
+
 	public static class MasterDataBuilder
 	{
 
@@ -30,42 +41,50 @@ namespace MackySoft.MasterTools
 		[MenuItem("Tools/Master Tools/Import")]
 		public static void Import ()
 		{
-			// 属性に従って、ファイルを読み込む（データ型を作成->）
-			IEnumerable<TableReaderInfo> infos = TypeCache.GetTypesWithAttribute<TableReaderAttribute>()
-				.Where(x => x.IsClass && !x.IsAbstract)
-				.Select(x => new TableReaderInfo(x, x.GetCustomAttribute<TableReaderAttribute>()));
+			BuildContext buildContext = new BuildContext(
+				Options.GetDefaultOutputDirectoryFullPath()
+			);
+			IDatabaseBuilder builder = Options.DatabaseBuilderFactory.Create(buildContext);
 
-			// 属性が付いたマスターデータ型を取得
-			DatabaseBuilderBase builder = null;
-
-			string tablesPathRoot = Path.GetFullPath(Path.Combine(Directory.GetParent(Application.dataPath).FullName, Options.TablesDirectoryPath));
-
-			foreach (TableReaderInfo info in infos)
+			string tablesDirectory = Options.GetTablesDirectoryFullPath();
+			foreach (TableReaderInfo info in GetTableReaderInfos())
 			{
-				TableReadContext context = new TableReadContext(
-					Path.Combine(tablesPathRoot, info.Attribute.FilePath),
+				TableContext tableContext = new TableContext(
+					info.DataType,
+					Path.Combine(tablesDirectory, info.Attribute.FilePath),
 					!string.IsNullOrEmpty(info.Attribute.SheetName) ? info.Attribute.SheetName : Options.DefaultSheetName
 				);
 
-				// ファイルからJSON形式でデータを読み取る
-				List<string> list = Options.TableReaderProvider.GetTableReader(context).Read();
-
-				// JSON->bytes->objectに変換
+				List<string> jsonData = Options.TableReader.Read(tableContext);
+				
 				List<object> tableData = new List<object>();
-				for (int i = 0; i < list.Count; i++)
+				for (int i = 0; i < jsonData.Count; i++)
 				{
-					byte[] bytes = MessagePackSerializer.ConvertFromJson(list[i]);
-					var obj = MessagePackSerializer.Deserialize<object>(bytes);
+					object obj = Options.JsonDeserializer.Deserialize(tableContext.DataType, jsonData[i]);
 					tableData.Add(obj);
 				}
 
-				// AppendDynamicでデータを追加
-				builder.AppendDynamic(info.DataType, tableData);
+				builder.Append(tableContext.DataType, tableData);
 			}
 
-			byte[] data = builder.Build();
+			try
+			{
+				builder.Build(buildContext);
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+				return;
+			}
 
 			RuntimeMasterDataNotification.NotifyImported();
 		}
+
+		static IEnumerable<TableReaderInfo> GetTableReaderInfos ()
+		{
+			return TypeCache.GetTypesWithAttribute<ImportTableFromAttribute>()
+				.Where(x => x.IsClass && !x.IsAbstract)
+				.Select(x => new TableReaderInfo(x, x.GetCustomAttribute<ImportTableFromAttribute>()));
+		} 
 	}
 }

@@ -1,82 +1,62 @@
 ﻿using System;
+using static UnityEditor.Progress;
+using System.IO;
+using UnityEngine;
 
 namespace MackySoft.MasterTools
 {
-	public sealed class TableReaderInfo
+	public readonly struct TableReaderInfo
 	{
 		public Type DataType { get; }
-		public TableReaderAttribute Attribute { get; }
+		public ImportTableFromAttribute Attribute { get; }
 
-		public TableReaderInfo (Type dataType, TableReaderAttribute attribute)
+		public TableReaderInfo (Type dataType, ImportTableFromAttribute attribute)
 		{
 			DataType = dataType;
 			Attribute = attribute;
 		}
 	}
-	public interface ITableReaderProvider
-	{
-		public ITableReader GetTableReader (TableReadContext context);
-	}
-	public static class TableReaderProvider
-	{
-		public static ITableReaderProvider Create (Func<TableReadContext, ITableReader> func)
-		{
-			if (func == null)
-			{
-				throw new ArgumentNullException(nameof(func));
-			}
-			return new AnonymousTableReaderProvider(func);
-		}
-
-		sealed class AnonymousTableReaderProvider : ITableReaderProvider
-		{
-
-			readonly Func<TableReadContext, ITableReader> m_Func;
-
-			public AnonymousTableReaderProvider (Func<TableReadContext, ITableReader> func)
-			{
-				m_Func = func;
-			}
-
-			public ITableReader GetTableReader (TableReadContext context)
-			{
-				return m_Func(context);
-			}
-		}
-	}
+	
 	public sealed class MasterToolsOptions
 	{
 
 		string m_TablesDirectoryPath = "../MasterData";
+		string m_DefaultOutputDirectoryPath = "MasterData";
 		string m_DefaultSheetName = "Main";
-		ITableReaderProvider m_TableReaderProvider;
+		IDatabaseBuilderFactory m_DatabaseBuilderFactory;
+		ITableReader m_TableReader;
+		IJsonDeserializer m_JsonDeserializer;
 
 		public string TablesDirectoryPath
 		{
 			get => m_TablesDirectoryPath;
-			set
-			{
-				if (string.IsNullOrEmpty(value))
-				{
-					throw new ArgumentException($"{nameof(TablesDirectoryPath)} is null or empty.", nameof(TablesDirectoryPath));
-				}
-				m_TablesDirectoryPath = value;
-			}
+			set => m_TablesDirectoryPath = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(TablesDirectoryPath)} is null or empty.", nameof(TablesDirectoryPath));
 		}
+
+		public string DefaultOutputDirectoryPath
+		{
+			get => m_DefaultOutputDirectoryPath;
+			set => m_DefaultOutputDirectoryPath = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(DefaultOutputDirectoryPath)} is null or empty.", nameof(DefaultOutputDirectoryPath));
+		}
+
 		public string DefaultSheetName
 		{
 			get => m_DefaultSheetName;
-			set
-			{
-				if (string.IsNullOrEmpty(value))
-				{
-					throw new ArgumentException($"{nameof(DefaultSheetName)} is null or empty.", nameof(DefaultSheetName));
-				}
-				m_DefaultSheetName = value;
-
-			}
+			set => m_DefaultSheetName = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(DefaultSheetName)} is null or empty.", nameof(DefaultSheetName));
 		}
 
-		public ITableReaderProvider TableReaderProvider { get => m_TableReaderProvider; set => m_TableReaderProvider = value; }
+		public IDatabaseBuilderFactory DatabaseBuilderFactory { get => m_DatabaseBuilderFactory; set => m_DatabaseBuilderFactory = value; }
+		public ITableReader TableReader { get => m_TableReader; set => m_TableReader = value; }
+		public IJsonDeserializer JsonDeserializer { get => m_JsonDeserializer; set => m_JsonDeserializer = value; }
+
+		public string GetTablesDirectoryFullPath ()
+		{
+			return Path.GetFullPath(Path.Combine(Directory.GetParent(Application.dataPath).FullName, m_TablesDirectoryPath));
+		}
+
+		public string GetDefaultOutputDirectoryFullPath ()
+		{
+			return Path.GetFullPath(Path.Combine(Application.dataPath, m_DefaultOutputDirectoryPath));
+		}
 	}
 }

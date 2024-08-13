@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MackySoft.MasterTools
 {
@@ -7,6 +8,22 @@ namespace MackySoft.MasterTools
 	/// </summary>
 	public interface ITableReader
 	{
-		List<string> Read ();
+		List<string> Read (TableContext context);
+	}
+
+	public interface IJsonDeserializer
+	{
+		object Deserialize (Type type, string json);
+	}
+
+	public interface IDatabaseBuilder
+	{
+		void Append (Type dataType, IList<object> tableData);
+		void Build (BuildContext context);
+	}
+
+	public interface IDatabaseBuilderFactory
+	{
+		IDatabaseBuilder Create (BuildContext context);
 	}
 }
