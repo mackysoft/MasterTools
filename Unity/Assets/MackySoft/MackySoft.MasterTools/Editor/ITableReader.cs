@@ -22,8 +22,5 @@ namespace MackySoft.MasterTools
 		void Build (BuildContext context);
 	}
 
-	public interface IDatabaseBuilderFactory
-	{
-		IDatabaseBuilder Create (BuildContext context);
-	}
+	
 }
