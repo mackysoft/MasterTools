@@ -30,10 +30,13 @@ namespace MackySoft.MasterTools
 
 			MasterDataBuilder.Options = new MasterToolsOptions()
 			{
+				DefaultOutputDirectoryPath = "Example/MasterData",
 				DatabaseBuilderFactory = DatabaseBuilderFactory.Create(ctx =>
 				{
 					return new MasterMemoryDatabaseBuilder(new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
 				}),
+				TableReader = new XlsxTableReader(),
+				JsonDeserializer = new MessagePackJsonDeserializer(),
 			};
 		}
 	}
