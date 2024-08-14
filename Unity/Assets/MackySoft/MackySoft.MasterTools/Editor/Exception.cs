@@ -6,4 +6,9 @@ namespace MackySoft.MasterTools
 	{
 		public SheetNotFoundException (string sheetName, string filePath) : base($"Sheet '{sheetName}' not found in '{filePath}'.") { }
 	}
+
+	public sealed class InvalidDatabaseException : Exception
+	{
+		public InvalidDatabaseException (string message) : base(message) { }
+	}
 }

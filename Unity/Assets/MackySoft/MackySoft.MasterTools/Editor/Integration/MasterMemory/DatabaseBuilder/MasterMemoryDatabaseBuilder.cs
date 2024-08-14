@@ -36,7 +36,7 @@ namespace MackySoft.MasterTools
 			ValidateResult validateResult = m_OnValidate(data);
 			if (validateResult.IsValidationFailed)
 			{
-				throw new InvalidDataException(validateResult.FormatFailedResults());
+				throw new InvalidDatabaseException(validateResult.FormatFailedResults());
 			}
 
 			// Write database.
