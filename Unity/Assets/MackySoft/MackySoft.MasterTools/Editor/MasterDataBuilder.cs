@@ -40,12 +40,12 @@ namespace MackySoft.MasterTools
 	public static class MasterDataBuilder
 	{
 
-		public static MasterToolsOptions Options { get; set; } = new MasterToolsOptions();
+		public static MasterToolsOptions DefaultOptions { get; set; } = new MasterToolsOptions();
 
 		[MenuItem("Tools/Master Tools/Import (with default options)")]
 		public static void Import ()
 		{
-			Import(Options);
+			Import(DefaultOptions);
 		}
 
 		public static void Import (MasterToolsOptions options)

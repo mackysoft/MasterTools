@@ -27,7 +27,7 @@ namespace MackySoft.MasterTools.Exmaple
 				// Catch and forget.
 			}
 
-			MasterDataBuilder.Options = new MasterToolsOptions()
+			MasterDataBuilder.DefaultOptions = new MasterToolsOptions()
 			{
 				DefaultOutputDirectoryPath = "Example/MasterData",
 				TablesDirectoryPath = "../../MasterData",
