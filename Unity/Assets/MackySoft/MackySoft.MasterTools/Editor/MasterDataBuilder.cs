@@ -100,7 +100,7 @@ namespace MackySoft.MasterTools
 				}
 				catch
 				{
-					Debug.LogError($"[MasterTools] Failed to import \'{tableContext.DataType.Name}\' table from \'{tableContext.SheetName}\' in \'{tableContext.FilePath}\'");
+					Debug.LogError($"[MasterTools] Failed to import \'{tableContext.DataType.Name}\' table from \'{tableContext.SheetName}\' in \'{tableContext.FilePath}\'. See the following log for details.");
 					throw;
 				}
 			}
@@ -111,7 +111,7 @@ namespace MackySoft.MasterTools
 			}
 			catch
 			{
-				Debug.LogError("[MasterTools] Failed to build tables.");
+				Debug.LogError("[MasterTools] Failed to build tables. See the following log for details.");
 				throw;
 			}
 
