@@ -16,7 +16,7 @@ namespace MackySoft.MasterTools
 			ISheet sheet = workbook.GetSheet(context.SheetName);
 			if (sheet == null)
 			{
-				throw new Exception($"Sheet '{context.SheetName}' not found in '{pathWithExtension}'.");
+				throw new InvalidDataException($"Sheet '{context.SheetName}' not found in '{pathWithExtension}'.");
 			}
 			IRow nameRow = sheet.GetRow(0);
 
@@ -28,7 +28,7 @@ namespace MackySoft.MasterTools
 			{
 				IRow row = sheet.GetRow(i);
 				jsonBuilder.Clear();
-				jsonBuilder.AppendObjectFromRowWithName(row, nameRow);
+				jsonBuilder.AppendObjectFromRow(row);
 
 				list.Add(jsonBuilder.ToString());
 			}
