@@ -16,7 +16,7 @@ namespace MackySoft.MasterTools
 			ISheet sheet = workbook.GetSheet(context.SheetName);
 			if (sheet == null)
 			{
-				throw new InvalidDataException($"Sheet '{context.SheetName}' not found in '{pathWithExtension}'.");
+				throw new SheetNotFoundException(context.SheetName, pathWithExtension);
 			}
 			IRow nameRow = sheet.GetRow(0);
 
