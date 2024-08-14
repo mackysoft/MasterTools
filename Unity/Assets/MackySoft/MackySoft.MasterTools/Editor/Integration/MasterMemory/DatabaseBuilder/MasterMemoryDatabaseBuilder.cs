@@ -1,7 +1,6 @@
 using MasterMemory;
 using MasterMemory.Validation;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -13,7 +12,7 @@ namespace MackySoft.MasterTools
 	public sealed class MasterMemoryDatabaseBuilder : IDatabaseBuilder
 	{
 
-		const string DatabaseName = "master-data.bytes";
+		const string DatabaseName = "database.bytes";
 
 		readonly DatabaseBuilderBase m_Builder;
 		readonly Func<byte[], ValidateResult> m_OnValidate;
@@ -37,18 +36,21 @@ namespace MackySoft.MasterTools
 			ValidateResult validateResult = m_OnValidate(data);
 			if (validateResult.IsValidationFailed)
 			{
-				Debug.LogError(validateResult.FormatFailedResults());
-				return;
+				throw new InvalidDataException(validateResult.FormatFailedResults());
 			}
 
 			// Write database.
 			Directory.CreateDirectory(context.OutputDirectoryPath);
-			using (var stream = File.Create(Path.Combine(context.OutputDirectoryPath, DatabaseName)))
+
+			string databasePath = Path.Combine(context.OutputDirectoryPath, DatabaseName);
+			using (var stream = File.Create(databasePath))
 			{
 				m_Builder.WriteToStream(stream);
 			}
 
 			AssetDatabase.Refresh();
+
+			Debug.Log($"Database built at {databasePath}");
 		}
 	}
 }
