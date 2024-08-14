@@ -50,7 +50,7 @@ namespace MackySoft.MasterTools
 
 		public string GetTablesDirectoryFullPath ()
 		{
-			return Path.GetFullPath(Path.Combine(Directory.GetParent(Application.dataPath).FullName, m_TablesDirectoryPath));
+			return Path.GetFullPath(Path.Combine(Application.dataPath, m_TablesDirectoryPath));
 		}
 
 		public string GetDefaultOutputDirectoryFullPath ()

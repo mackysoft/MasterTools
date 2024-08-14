@@ -3,9 +3,8 @@ using MessagePack;
 using UnityEditor;
 using MackySoft.MasterTools.Example.MasterData;
 using MackySoft.MasterTools.Example.MasterData.Resolvers;
-using UnityEngine;
 
-namespace MackySoft.MasterTools
+namespace MackySoft.MasterTools.Exmaple
 {
 	public static class MasterToolsInitializer
 	{
@@ -31,6 +30,8 @@ namespace MackySoft.MasterTools
 			MasterDataBuilder.Options = new MasterToolsOptions()
 			{
 				DefaultOutputDirectoryPath = "Example/MasterData",
+				TablesDirectoryPath = "../../MasterData",
+				DefaultSheetName = "Main",
 				DatabaseBuilderFactory = DatabaseBuilderFactory.Create(ctx =>
 				{
 					return new MasterMemoryDatabaseBuilder(new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
