@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,10 +26,13 @@ namespace MackySoft.MasterTools
 
 	public readonly struct BuildContext
 	{
+
+		public string TablesDirectoryPath { get; }
 		public string OutputDirectoryPath { get; }
 
-		public BuildContext (string outputDirectoryPath)
+		public BuildContext (string tablesDirectoryPath, string outputDirectoryPath)
 		{
+			TablesDirectoryPath = !string.IsNullOrEmpty(tablesDirectoryPath) ? tablesDirectoryPath : throw new ArgumentException($"{nameof(tablesDirectoryPath)} is null or empty.", nameof(tablesDirectoryPath));
 			OutputDirectoryPath = !string.IsNullOrEmpty(outputDirectoryPath) ? outputDirectoryPath : throw new ArgumentException($"{nameof(outputDirectoryPath)} is null or empty.", nameof(outputDirectoryPath));
 		}
 	}
@@ -47,40 +51,71 @@ namespace MackySoft.MasterTools
 		public static void Import (MasterToolsOptions options)
 		{
 			BuildContext buildContext = new BuildContext(
+				options.GetTablesDirectoryFullPath(),
 				options.GetDefaultOutputDirectoryFullPath()
 			);
 			IDatabaseBuilder builder = options.DatabaseBuilderFactory.Create(buildContext);
 
-			string tablesDirectory = options.GetTablesDirectoryFullPath();
+			Debug.Log($"[MasterTools] Start import tables from \'{buildContext.TablesDirectoryPath}\'");
+
+			StringBuilder importLogBuilder = new StringBuilder();
 			foreach (TableReaderInfo info in GetTableReaderInfos())
 			{
 				TableContext tableContext = new TableContext(
 					info.DataType,
-					Path.Combine(tablesDirectory, info.Attribute.FilePath),
+					Path.Combine(buildContext.TablesDirectoryPath, info.Attribute.FilePath),
 					!string.IsNullOrEmpty(info.Attribute.SheetName) ? info.Attribute.SheetName : options.DefaultSheetName
 				);
 
-				List<string> jsonData = options.TableReader.Read(tableContext);
-
-				List<object> tableData = new List<object>();
-				for (int i = 0; i < jsonData.Count; i++)
+				try
 				{
-					object obj = options.JsonDeserializer.Deserialize(tableContext.DataType, jsonData[i]);
-					tableData.Add(obj);
-				}
+					importLogBuilder.Clear();
+					importLogBuilder.Append($"[MasterTools] Import \'{tableContext.DataType.Name}\' table from sheet '{tableContext.SheetName}' in \'{tableContext.FilePath}\'");
 
-				builder.Append(tableContext.DataType, tableData);
+					// Read table data.
+					List<string> jsonData = options.TableReader.Read(tableContext);
+					if (jsonData.Count > 0)
+					{
+						importLogBuilder.AppendLine();
+						importLogBuilder.AppendLine(jsonData.Count + " items found.");
+						importLogBuilder.Append("- ");
+						importLogBuilder.AppendJoin("\n- ", jsonData);
+					}
+					else
+					{
+						importLogBuilder.AppendLine("No items found.");
+					}
+
+					// Deserialize table data.
+					List<object> tableData = new List<object>();
+					for (int i = 0; i < jsonData.Count; i++)
+					{
+						object obj = options.JsonDeserializer.Deserialize(tableContext.DataType, jsonData[i]);
+						tableData.Add(obj);
+					}
+
+					builder.Append(tableContext.DataType, tableData);
+
+					Debug.Log(importLogBuilder.ToString());
+				}
+				catch
+				{
+					Debug.LogError($"[MasterTools] Failed to import \'{tableContext.DataType.Name}\' table from \'{tableContext.SheetName}\' in \'{tableContext.FilePath}\'");
+					throw;
+				}
 			}
 
 			try
 			{
 				builder.Build(buildContext);
 			}
-			catch (Exception e)
+			catch
 			{
-				Debug.LogException(e);
-				return;
+				Debug.LogError("[MasterTools] Failed to build tables.");
+				throw;
 			}
+
+			Debug.Log($"[MasterTools] Successfully imported tables.");
 
 			RuntimeMasterDataNotification.NotifyImported();
 		}
