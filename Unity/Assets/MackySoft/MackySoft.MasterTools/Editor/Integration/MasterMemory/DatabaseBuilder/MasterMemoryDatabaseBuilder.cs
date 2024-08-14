@@ -50,7 +50,7 @@ namespace MackySoft.MasterTools
 
 			AssetDatabase.Refresh();
 
-			Debug.Log($"Database built at {databasePath}");
+			Debug.Log($"[MasterTools] Database built at {databasePath}");
 		}
 	}
 }
