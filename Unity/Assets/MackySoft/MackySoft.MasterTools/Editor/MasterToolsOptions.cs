@@ -4,18 +4,7 @@ using UnityEngine;
 
 namespace MackySoft.MasterTools
 {
-	public readonly struct TableReaderInfo
-	{
-		public Type DataType { get; }
-		public ImportTableFromAttribute Attribute { get; }
 
-		public TableReaderInfo (Type dataType, ImportTableFromAttribute attribute)
-		{
-			DataType = dataType;
-			Attribute = attribute;
-		}
-	}
-	
 	public sealed class MasterToolsOptions
 	{
 
@@ -26,18 +15,28 @@ namespace MackySoft.MasterTools
 		ITableReader m_TableReader;
 		IJsonDeserializer m_JsonDeserializer;
 
+		/// <summary>
+		/// Relative path of the table directory, with <see cref="Application.dataPath"/> as root.
+		/// </summary>
 		public string TablesDirectoryPath
 		{
 			get => m_TablesDirectoryPath;
 			set => m_TablesDirectoryPath = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(TablesDirectoryPath)} is null or empty.", nameof(TablesDirectoryPath));
 		}
 
+
+		/// <summary>
+		/// Relative path of the output directory, with <see cref="Application.dataPath"/> as root.
+		/// </summary>
 		public string DefaultOutputDirectoryPath
 		{
 			get => m_DefaultOutputDirectoryPath;
 			set => m_DefaultOutputDirectoryPath = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(DefaultOutputDirectoryPath)} is null or empty.", nameof(DefaultOutputDirectoryPath));
 		}
 
+		/// <summary>
+		/// Default sheet name to read.
+		/// </summary>
 		public string DefaultSheetName
 		{
 			get => m_DefaultSheetName;
@@ -48,11 +47,17 @@ namespace MackySoft.MasterTools
 		public ITableReader TableReader { get => m_TableReader; set => m_TableReader = value; }
 		public IJsonDeserializer JsonDeserializer { get => m_JsonDeserializer; set => m_JsonDeserializer = value; }
 
+		/// <summary>
+		/// Get the full path of the tables directory.
+		/// </summary>
 		public string GetTablesDirectoryFullPath ()
 		{
 			return Path.GetFullPath(Path.Combine(Application.dataPath, m_TablesDirectoryPath));
 		}
 
+		/// <summary>
+		/// Get the full path of the default output directory.
+		/// </summary>
 		public string GetDefaultOutputDirectoryFullPath ()
 		{
 			return Path.GetFullPath(Path.Combine(Application.dataPath, m_DefaultOutputDirectoryPath));

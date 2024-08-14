@@ -9,6 +9,18 @@ using UnityEngine;
 
 namespace MackySoft.MasterTools
 {
+	public readonly struct TableImportInfo
+	{
+		public Type DataType { get; }
+		public ImportTableFromAttribute Attribute { get; }
+
+		public TableImportInfo (Type dataType, ImportTableFromAttribute attribute)
+		{
+			DataType = dataType;
+			Attribute = attribute;
+		}
+	}
+
 	public readonly struct TableContext
 	{
 
@@ -43,13 +55,15 @@ namespace MackySoft.MasterTools
 		public static MasterToolsOptions DefaultOptions { get; set; } = new MasterToolsOptions();
 
 		[MenuItem("Tools/Master Tools/Import (with default options)")]
-		public static void Import ()
+		public static void ImportWithDefaultOptions ()
 		{
 			Import(DefaultOptions);
 		}
 
 		public static void Import (MasterToolsOptions options)
 		{
+			options ??= DefaultOptions;
+
 			BuildContext buildContext = new BuildContext(
 				options.GetTablesDirectoryFullPath(),
 				options.GetDefaultOutputDirectoryFullPath()
@@ -59,7 +73,7 @@ namespace MackySoft.MasterTools
 			Debug.Log($"[MasterTools] Start import tables from \'{buildContext.TablesDirectoryPath}\'");
 
 			StringBuilder importLogBuilder = new StringBuilder();
-			foreach (TableReaderInfo info in GetTableReaderInfos())
+			foreach (TableImportInfo info in GetTableReaderInfos())
 			{
 				TableContext tableContext = new TableContext(
 					info.DataType,
@@ -120,11 +134,11 @@ namespace MackySoft.MasterTools
 			RuntimeMasterDataNotification.NotifyImported();
 		}
 
-		static IEnumerable<TableReaderInfo> GetTableReaderInfos ()
+		static IEnumerable<TableImportInfo> GetTableReaderInfos ()
 		{
 			return TypeCache.GetTypesWithAttribute<ImportTableFromAttribute>()
 				.Where(x => x.IsClass && !x.IsAbstract)
-				.Select(x => new TableReaderInfo(x, x.GetCustomAttribute<ImportTableFromAttribute>()));
+				.Select(x => new TableImportInfo(x, x.GetCustomAttribute<ImportTableFromAttribute>()));
 		} 
 	}
 }
