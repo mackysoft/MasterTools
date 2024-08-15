@@ -3,7 +3,7 @@
 	"displayName": "MasterTools",
 	"author": { "name": "MackySoft", "url": "https://github.com/mackysoft" },
 	"version": "1.0.0",
-	"unity": "2022.3",
+	"unity": "2021.3",
 	"description": "Master data importer for Unity.",
 	"keywords": [ "MasterTools", "Database" ],
 	"license": "MIT",
