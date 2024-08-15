@@ -11,7 +11,7 @@ namespace MackySoft.MasterTools
 		string m_TablesDirectoryPath = "../MasterData";
 		string m_DefaultOutputDirectoryPath = "MasterData";
 		string m_DefaultSheetName = "Main";
-		IDatabaseBuilderFactory m_DatabaseBuilderFactory;
+		IMasterBuilderProcessor m_Processor;
 		ITableReader m_TableReader;
 		IJsonDeserializer m_JsonDeserializer;
 
@@ -43,7 +43,7 @@ namespace MackySoft.MasterTools
 			set => m_DefaultSheetName = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException($"{nameof(DefaultSheetName)} is null or empty.", nameof(DefaultSheetName));
 		}
 
-		public IDatabaseBuilderFactory DatabaseBuilderFactory { get => m_DatabaseBuilderFactory; set => m_DatabaseBuilderFactory = value; }
+		public IMasterBuilderProcessor Processor { get => m_Processor; set => m_Processor = value; }
 		public ITableReader TableReader { get => m_TableReader; set => m_TableReader = value; }
 		public IJsonDeserializer JsonDeserializer { get => m_JsonDeserializer; set => m_JsonDeserializer = value; }
 
@@ -53,9 +53,9 @@ namespace MackySoft.MasterTools
 		/// <exception cref="NullReferenceException"></exception>
 		public void Validate ()
 		{
-			if (m_DatabaseBuilderFactory == null)
+			if (m_Processor == null)
 			{
-				throw new NullReferenceException($"{nameof(DatabaseBuilderFactory)} is null.");
+				throw new NullReferenceException($"{nameof(Processor)} is null.");
 			}
 			if (m_TableReader == null)
 			{

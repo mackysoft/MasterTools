@@ -1,44 +1,42 @@
-﻿using MessagePack.Resolvers;
+﻿using UnityEditor;
 using MessagePack;
-using UnityEditor;
+using MessagePack.Resolvers;
+using MackySoft.MasterTools;
 using MackySoft.MasterTools.Example.MasterData;
 using MackySoft.MasterTools.Example.MasterData.Resolvers;
 
-namespace MackySoft.MasterTools.Exmaple
+public static class MasterToolsInitializer
 {
-	public static class MasterToolsInitializer
+	[InitializeOnLoadMethod]
+	static void Initialize ()
 	{
-		[InitializeOnLoadMethod]
-		static void Initialize ()
+		MasterDataBuilder.DefaultOptions = new MasterToolsOptions
 		{
-			try
+			DefaultOutputDirectoryPath = "Example/MasterData",
+			TablesDirectoryPath = "../../MasterData",
+			DefaultSheetName = "Main",
+			Processor = MasterBuilderProcessor.Create(ctx =>
 			{
-				// Register resolvers.
-				StaticCompositeResolver.Instance.Register(
-					MasterMemoryResolver.Instance,
-					GeneratedResolver.Instance,
-					StandardResolver.Instance
-				);
-				var options = MessagePackSerializerOptions.Standard.WithResolver(StaticCompositeResolver.Instance);
-				MessagePackSerializer.DefaultOptions = options;
-			}
-			catch
-			{
-				// Catch and forget.
-			}
-
-			MasterDataBuilder.DefaultOptions = new MasterToolsOptions()
-			{
-				DefaultOutputDirectoryPath = "Example/MasterData",
-				TablesDirectoryPath = "../../MasterData",
-				DefaultSheetName = "Main",
-				DatabaseBuilderFactory = DatabaseBuilderFactory.Create(ctx =>
+				try
 				{
-					return new MasterMemoryDatabaseBuilder(new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
-				}),
-				TableReader = new XlsxTableReader(),
-				JsonDeserializer = new MessagePackJsonDeserializer(),
-			};
-		}
+					// Initialize MessagePack
+					StaticCompositeResolver.Instance.Register(
+						MasterMemoryResolver.Instance,
+						GeneratedResolver.Instance,
+						StandardResolver.Instance
+					);
+					var options = MessagePackSerializerOptions.Standard.WithResolver(StaticCompositeResolver.Instance);
+					MessagePackSerializer.DefaultOptions = options;
+				}
+				catch
+				{
+					// Catch and forget.
+				}
+
+				return new MasterMemoryDatabaseBuilder(new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
+			}),
+			TableReader = new XlsxTableReader(),
+			JsonDeserializer = new MessagePackJsonDeserializer(),
+		};
 	}
 }

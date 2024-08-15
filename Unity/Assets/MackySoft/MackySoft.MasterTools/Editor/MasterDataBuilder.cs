@@ -82,7 +82,7 @@ namespace MackySoft.MasterTools
 			IDatabaseBuilder builder = null;
 			try
 			{
-				builder = options.DatabaseBuilderFactory.Create(buildContext);
+				builder = options.Processor.Setup(buildContext);
 				if (builder == null)
 				{
 					throw new NullReferenceException($"Created builder is null.");
