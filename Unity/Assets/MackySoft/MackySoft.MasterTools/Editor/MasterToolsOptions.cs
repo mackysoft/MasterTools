@@ -48,6 +48,26 @@ namespace MackySoft.MasterTools
 		public IJsonDeserializer JsonDeserializer { get => m_JsonDeserializer; set => m_JsonDeserializer = value; }
 
 		/// <summary>
+		/// Validate the options.
+		/// </summary>
+		/// <exception cref="NullReferenceException"></exception>
+		public void Validate ()
+		{
+			if (m_DatabaseBuilderFactory == null)
+			{
+				throw new NullReferenceException($"{nameof(DatabaseBuilderFactory)} is null.");
+			}
+			if (m_TableReader == null)
+			{
+				throw new NullReferenceException($"{nameof(TableReader)} is null.");
+			}
+			if (m_JsonDeserializer == null)
+			{
+				throw new NullReferenceException($"{nameof(JsonDeserializer)} is null.");
+			}
+		}
+
+		/// <summary>
 		/// Get the full path of the tables directory.
 		/// </summary>
 		public string GetTablesDirectoryFullPath ()

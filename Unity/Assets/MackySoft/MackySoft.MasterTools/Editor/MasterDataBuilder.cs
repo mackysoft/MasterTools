@@ -57,20 +57,42 @@ namespace MackySoft.MasterTools
 		[MenuItem("Tools/Master Tools/Import (with default options)")]
 		public static void ImportWithDefaultOptions ()
 		{
+			if (DefaultOptions == null)
+			{
+				throw new InvalidOperationException($"{nameof(DefaultOptions)} is null. Please set the default options.");
+			}
 			Import(DefaultOptions);
 		}
 
 		public static void Import (MasterToolsOptions options)
 		{
-			options ??= DefaultOptions;
+			if (options == null)
+			{
+				throw new ArgumentNullException(nameof(options));
+			}
+			options.Validate();
 
 			BuildContext buildContext = new BuildContext(
 				options.GetTablesDirectoryFullPath(),
 				options.GetDefaultOutputDirectoryFullPath()
 			);
-			IDatabaseBuilder builder = options.DatabaseBuilderFactory.Create(buildContext);
 
 			Debug.Log($"[MasterTools] Start import tables from \'{buildContext.TablesDirectoryPath}\'");
+
+			IDatabaseBuilder builder = null;
+			try
+			{
+				builder = options.DatabaseBuilderFactory.Create(buildContext);
+				if (builder == null)
+				{
+					throw new NullReferenceException($"Created builder is null.");
+				}
+			}
+			catch
+			{
+				Debug.LogError("[MasterTools] Failed to create database builder. See the following log for details.");
+				throw;
+			}
 
 			StringBuilder importLogBuilder = new StringBuilder();
 			foreach (TableImportInfo info in GetTableReaderInfos())
