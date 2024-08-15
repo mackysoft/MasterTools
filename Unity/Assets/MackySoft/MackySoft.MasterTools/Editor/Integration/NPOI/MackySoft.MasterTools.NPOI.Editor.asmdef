@@ -10,7 +10,7 @@
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": true,
+    "overrideReferences": false,
     "precompiledReferences": [
         "NPOI.Core.dll",
         "NPOI.OOXML.dll",
