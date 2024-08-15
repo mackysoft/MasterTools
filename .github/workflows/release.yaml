@@ -82,7 +82,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets[matrix.email] }}
           UNITY_PASSWORD: ${{ secrets[matrix.password] }}
         with:
-          projectPath: .
+          projectPath: ./Unity
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: StandaloneLinux64
           buildMethod: MackySoft.PackageTools.Editor.UnityPackageExporter.Export
