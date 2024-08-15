@@ -76,7 +76,7 @@ jobs:
           ref: ${{ needs.update-packagejson.outputs.sha }}
 
       - name: Export unitypackage
-        uses: game-ci/unity-builder@v4
+        uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets[matrix.license] }}
           UNITY_EMAIL: ${{ secrets[matrix.email] }}
