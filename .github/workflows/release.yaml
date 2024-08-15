@@ -64,7 +64,9 @@ jobs:
         unity: ["2021.3.24f1"]
         include:
           - unityVersion: 2021.3.24f1
-            license: UNITY_LICENSE_2021
+            license: UNITY_LICENSE
+            email: UNITY_EMAIL
+            password: UNITY_PASSWORD
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -74,9 +76,11 @@ jobs:
           ref: ${{ needs.update-packagejson.outputs.sha }}
 
       - name: Export unitypackage
-        uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets[matrix.license] }}
+          UNITY_EMAIL: ${{ secrets[matrix.email] }}
+          UNITY_PASSWORD: ${{ secrets[matrix.password] }}
         with:
           projectPath: .
           unityVersion: ${{ matrix.unityVersion }}
