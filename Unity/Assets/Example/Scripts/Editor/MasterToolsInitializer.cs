@@ -10,7 +10,7 @@ public static class MasterToolsInitializer
 	[InitializeOnLoadMethod]
 	static void Initialize ()
 	{
-		MasterDataBuilder.DefaultOptions = new MasterToolsOptions
+		MasterToolsImporter.DefaultOptions = new MasterToolsOptions
 		{
 			DefaultOutputDirectoryPath = "Example/MasterData",
 			TablesDirectoryPath = "../../MasterData",

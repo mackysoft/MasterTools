@@ -49,7 +49,7 @@ namespace MackySoft.MasterTools
 		}
 	}
 
-	public static class MasterDataBuilder
+	public static class MasterToolsImporter
 	{
 
 		public static MasterToolsOptions DefaultOptions { get; set; }
@@ -87,7 +87,8 @@ namespace MackySoft.MasterTools
 
 			Debug.Log($"[MasterTools] Start import tables from \'{buildContext.TablesDirectoryPath}\'");
 
-			IDatabaseBuilder builder = null;
+			// Setup database builder.
+			IDatabaseBuilder builder;
 			try
 			{
 				builder = options.Processor.Setup(buildContext);
@@ -102,6 +103,7 @@ namespace MackySoft.MasterTools
 				throw;
 			}
 
+			// Read tables and accumulate data.
 			StringBuilder importLogBuilder = new StringBuilder();
 			foreach (TableImportInfo info in GetTableReaderInfos())
 			{
@@ -149,6 +151,7 @@ namespace MackySoft.MasterTools
 				}
 			}
 
+			// Build database and output files.
 			try
 			{
 				builder.Build(buildContext);
@@ -161,6 +164,7 @@ namespace MackySoft.MasterTools
 
 			Debug.Log($"[MasterTools] Successfully imported tables.");
 
+			// Notify runtime import event.
 			RuntimeMasterDataNotification.NotifyImported();
 		}
 
