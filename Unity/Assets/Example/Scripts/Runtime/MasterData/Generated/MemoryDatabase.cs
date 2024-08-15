@@ -12,12 +12,15 @@ namespace MackySoft.MasterTools.Example.MasterData
 {
    public sealed class MemoryDatabase : MemoryDatabaseBase
    {
+        public ItemMasterDataTable ItemMasterDataTable { get; private set; }
         public QuestMasterDataTable QuestMasterDataTable { get; private set; }
 
         public MemoryDatabase(
+            ItemMasterDataTable ItemMasterDataTable,
             QuestMasterDataTable QuestMasterDataTable
         )
         {
+            this.ItemMasterDataTable = ItemMasterDataTable;
             this.QuestMasterDataTable = QuestMasterDataTable;
         }
 
@@ -40,6 +43,7 @@ namespace MackySoft.MasterTools.Example.MasterData
 
         void InitSequential(Dictionary<string, (int offset, int count)> header, System.ReadOnlyMemory<byte> databaseBinary, MessagePack.MessagePackSerializerOptions options, int maxDegreeOfParallelism)
         {
+            this.ItemMasterDataTable = ExtractTableData<ItemMasterData, ItemMasterDataTable>(header, databaseBinary, options, xs => new ItemMasterDataTable(xs));
             this.QuestMasterDataTable = ExtractTableData<QuestMasterData, QuestMasterDataTable>(header, databaseBinary, options, xs => new QuestMasterDataTable(xs));
         }
 
@@ -47,6 +51,7 @@ namespace MackySoft.MasterTools.Example.MasterData
         {
             var extracts = new Action[]
             {
+                () => this.ItemMasterDataTable = ExtractTableData<ItemMasterData, ItemMasterDataTable>(header, databaseBinary, options, xs => new ItemMasterDataTable(xs)),
                 () => this.QuestMasterDataTable = ExtractTableData<QuestMasterData, QuestMasterDataTable>(header, databaseBinary, options, xs => new QuestMasterDataTable(xs)),
             };
             
@@ -64,6 +69,7 @@ namespace MackySoft.MasterTools.Example.MasterData
         public DatabaseBuilder ToDatabaseBuilder()
         {
             var builder = new DatabaseBuilder();
+            builder.Append(this.ItemMasterDataTable.GetRawDataUnsafe());
             builder.Append(this.QuestMasterDataTable.GetRawDataUnsafe());
             return builder;
         }
@@ -71,6 +77,7 @@ namespace MackySoft.MasterTools.Example.MasterData
         public DatabaseBuilder ToDatabaseBuilder(MessagePack.IFormatterResolver resolver)
         {
             var builder = new DatabaseBuilder(resolver);
+            builder.Append(this.ItemMasterDataTable.GetRawDataUnsafe());
             builder.Append(this.QuestMasterDataTable.GetRawDataUnsafe());
             return builder;
         }
@@ -82,9 +89,12 @@ namespace MackySoft.MasterTools.Example.MasterData
             var result = new ValidateResult();
             var database = new ValidationDatabase(new object[]
             {
+                ItemMasterDataTable,
                 QuestMasterDataTable,
             });
 
+            ((ITableUniqueValidate)ItemMasterDataTable).ValidateUnique(result);
+            ValidateTable(ItemMasterDataTable.All, database, "Id", ItemMasterDataTable.PrimaryKeySelector, result);
             ((ITableUniqueValidate)QuestMasterDataTable).ValidateUnique(result);
             ValidateTable(QuestMasterDataTable.All, database, "Id", QuestMasterDataTable.PrimaryKeySelector, result);
 
@@ -99,6 +109,8 @@ namespace MackySoft.MasterTools.Example.MasterData
         {
             switch (tableName)
             {
+                case "Item":
+                    return db.ItemMasterDataTable;
                 case "Quest":
                     return db.QuestMasterDataTable;
                 
@@ -114,6 +126,7 @@ namespace MackySoft.MasterTools.Example.MasterData
             if (metaTable != null) return metaTable;
 
             var dict = new Dictionary<string, MasterMemory.Meta.MetaTable>();
+            dict.Add("Item", MackySoft.MasterTools.Example.MasterData.Tables.ItemMasterDataTable.CreateMetaTable());
             dict.Add("Quest", MackySoft.MasterTools.Example.MasterData.Tables.QuestMasterDataTable.CreateMetaTable());
 
             metaTable = new MasterMemory.Meta.MetaDatabase(dict);

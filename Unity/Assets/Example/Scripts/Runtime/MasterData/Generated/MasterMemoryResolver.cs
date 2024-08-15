@@ -45,9 +45,10 @@ namespace MackySoft.MasterTools.Example.MasterData
 
         static MasterMemoryResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(1)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(2)
             {
-                {typeof(QuestMasterData[]), 0 },
+                {typeof(ItemMasterData[]), 0 },
+                {typeof(QuestMasterData[]), 1 },
             };
         }
 
@@ -58,7 +59,8 @@ namespace MackySoft.MasterTools.Example.MasterData
 
             switch (key)
             {
-                case 0: return new MessagePack.Formatters.ArrayFormatter<QuestMasterData>();
+                case 0: return new MessagePack.Formatters.ArrayFormatter<ItemMasterData>();
+                case 1: return new MessagePack.Formatters.ArrayFormatter<QuestMasterData>();
                 default: return null;
             }
         }

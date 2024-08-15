@@ -47,9 +47,10 @@ namespace MackySoft.MasterTools.Example.MasterData.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(1)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(2)
             {
-                { typeof(global::MackySoft.MasterTools.Example.QuestMasterData), 0 },
+                { typeof(global::MackySoft.MasterTools.Example.ItemMasterData), 0 },
+                { typeof(global::MackySoft.MasterTools.Example.QuestMasterData), 1 },
             };
         }
 
@@ -63,7 +64,8 @@ namespace MackySoft.MasterTools.Example.MasterData.Resolvers
 
             switch (key)
             {
-                case 0: return new MackySoft.MasterTools.Example.MasterData.Formatters.MackySoft.MasterTools.Example.QuestMasterDataFormatter();
+                case 0: return new MackySoft.MasterTools.Example.MasterData.Formatters.MackySoft.MasterTools.Example.ItemMasterDataFormatter();
+                case 1: return new MackySoft.MasterTools.Example.MasterData.Formatters.MackySoft.MasterTools.Example.QuestMasterDataFormatter();
                 default: return null;
             }
         }

@@ -24,11 +24,47 @@ namespace MackySoft.MasterTools.Example.MasterData
             return memory;
         }
 
+        public void ReplaceAll(System.Collections.Generic.IList<ItemMasterData> data)
+        {
+            var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
+            var table = new ItemMasterDataTable(newData);
+            memory = new MemoryDatabase(
+                table,
+                memory.QuestMasterDataTable
+            
+            );
+        }
+
+        public void RemoveItemMasterData(int[] keys)
+        {
+            var data = RemoveCore(memory.ItemMasterDataTable.GetRawDataUnsafe(), keys, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
+            var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
+            var table = new ItemMasterDataTable(newData);
+            memory = new MemoryDatabase(
+                table,
+                memory.QuestMasterDataTable
+            
+            );
+        }
+
+        public void Diff(ItemMasterData[] addOrReplaceData)
+        {
+            var data = DiffCore(memory.ItemMasterDataTable.GetRawDataUnsafe(), addOrReplaceData, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
+            var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
+            var table = new ItemMasterDataTable(newData);
+            memory = new MemoryDatabase(
+                table,
+                memory.QuestMasterDataTable
+            
+            );
+        }
+
         public void ReplaceAll(System.Collections.Generic.IList<QuestMasterData> data)
         {
             var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
             var table = new QuestMasterDataTable(newData);
             memory = new MemoryDatabase(
+                memory.ItemMasterDataTable,
                 table
             
             );
@@ -40,6 +76,7 @@ namespace MackySoft.MasterTools.Example.MasterData
             var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
             var table = new QuestMasterDataTable(newData);
             memory = new MemoryDatabase(
+                memory.ItemMasterDataTable,
                 table
             
             );
@@ -51,6 +88,7 @@ namespace MackySoft.MasterTools.Example.MasterData
             var newData = CloneAndSortBy(data, x => x.Id, System.Collections.Generic.Comparer<int>.Default);
             var table = new QuestMasterDataTable(newData);
             memory = new MemoryDatabase(
+                memory.ItemMasterDataTable,
                 table
             
             );
