@@ -19,7 +19,7 @@ namespace MackySoft.PackageTools.Editor {
 		const string k_SearchPattern = "*";
 		const string k_PackageToolsFolderName = "PackageTools";
 
-		[MenuItem("Tools/MasterTools/Export Package")]
+		[MenuItem("Tools/Package Tools/Export Package")]
 		public static void Export () {
 			ExportPackage($"{k_ExportPath}/{k_PackageName}.unitypackage");
 		}
