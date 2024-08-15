@@ -18,7 +18,7 @@ jobs:
     outputs:
       sha: ${{ steps.commit.outputs.sha }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Output package.json (Before)
         run: cat ${{ env.TARGET_FILE}}
 
@@ -102,7 +102,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: MasterTools.unitypackage
-          path: ./Build/MasterTools.unitypackage
+          path: ./Unity/Build/MasterTools.unitypackage
 
   create-release:
     needs: [update-packagejson, build]
