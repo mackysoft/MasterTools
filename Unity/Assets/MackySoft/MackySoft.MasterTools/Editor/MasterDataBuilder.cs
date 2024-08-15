@@ -52,8 +52,12 @@ namespace MackySoft.MasterTools
 	public static class MasterDataBuilder
 	{
 
-		public static MasterToolsOptions DefaultOptions { get; set; } = new MasterToolsOptions();
+		public static MasterToolsOptions DefaultOptions { get; set; }
 
+		/// <summary>
+		/// Import tables with the default options. Throws an exception if the default options are not set.
+		/// </summary>
+		/// <exception cref="InvalidOperationException"></exception>
 		[MenuItem("Tools/Master Tools/Import (with default options)")]
 		public static void ImportWithDefaultOptions ()
 		{
@@ -64,6 +68,10 @@ namespace MackySoft.MasterTools
 			Import(DefaultOptions);
 		}
 
+		/// <summary>
+		/// Import tables with the specified options.
+		/// </summary>
+		/// <exception cref="ArgumentNullException"></exception>
 		public static void Import (MasterToolsOptions options)
 		{
 			if (options == null)
