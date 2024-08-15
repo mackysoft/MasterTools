@@ -33,7 +33,7 @@ public static class MasterToolsInitializer
 					// Catch and forget.
 				}
 
-				return new MasterMemoryDatabaseBuilder(new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
+				return new MasterMemoryDatabaseBuilder("database", new DatabaseBuilder(), x => new MemoryDatabase(x).Validate());
 			}),
 			TableReader = new XlsxTableReader(),
 			JsonDeserializer = new MessagePackJsonDeserializer(),

@@ -12,13 +12,13 @@ namespace MackySoft.MasterTools
 	public sealed class MasterMemoryDatabaseBuilder : IDatabaseBuilder
 	{
 
-		const string DatabaseName = "database.bytes";
-
+		readonly string m_OutputFileName;
 		readonly DatabaseBuilderBase m_Builder;
 		readonly Func<byte[], ValidateResult> m_OnValidate;
 
-		public MasterMemoryDatabaseBuilder (DatabaseBuilderBase builder, Func<byte[], ValidateResult> onValidate)
+		public MasterMemoryDatabaseBuilder (string outputFileName, DatabaseBuilderBase builder, Func<byte[], ValidateResult> onValidate)
 		{
+			m_OutputFileName = !string.IsNullOrEmpty(outputFileName) ? outputFileName : throw new ArgumentException($"{nameof(outputFileName)} is null or empty.", nameof(outputFileName));
 			m_Builder = builder ?? throw new ArgumentNullException(nameof(builder));
 			m_OnValidate = onValidate ?? throw new ArgumentNullException(nameof(onValidate));
 		}
@@ -42,15 +42,15 @@ namespace MackySoft.MasterTools
 			// Write database.
 			Directory.CreateDirectory(context.OutputDirectoryPath);
 
-			string databasePath = Path.Combine(context.OutputDirectoryPath, DatabaseName);
-			using (var stream = File.Create(databasePath))
+			string outputFilePath = Path.ChangeExtension(Path.Combine(context.OutputDirectoryPath, m_OutputFileName), ".bytes");
+			using (var stream = File.Create(outputFilePath))
 			{
 				m_Builder.WriteToStream(stream);
 			}
 
 			AssetDatabase.Refresh();
 
-			Debug.Log($"[MasterTools] Database built at {databasePath}");
+			Debug.Log($"[MasterTools] Database built at {outputFilePath}");
 		}
 	}
 }
