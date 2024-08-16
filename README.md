@@ -171,4 +171,4 @@ Hiroya Aramaki is a indie game developer in Japan.
 
 ## <a id="license" href="#license"> 📜 License </a>
 
-This library is under the [MIT License](https://github.com/mackysoft/Navigathena/blob/main/LICENSE).
+This library is under the [MIT License](https://github.com/mackysoft/MasterTools/blob/main/LICENSE).
