@@ -1,5 +1,7 @@
 # MasterTools - Table importer for Unity
 
+[![Release](https://img.shields.io/github/v/release/mackysoft/MasterTools)](https://github.com/mackysoft/MasterTools/releases) [![openupm](https://img.shields.io/npm/v/com.mackysoft.mastertools?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.mackysoft.mastertools/)
+
 ## What is MasterTools?
 
 ![](https://github.com/mackysoft/MasterTools/blob/master/Documentation/Toolbar.gif?raw=true)
