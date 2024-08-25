@@ -6,6 +6,13 @@ namespace MasterMemory
 {
     public static class DatabaseBuilderExtensions
     {
+        /// <summary>
+        /// Appends dynamic data to the database builder.
+        /// </summary>
+        /// <param name="builder">The database builder instance.</param>
+        /// <param name="dataType">The type of data to append.</param>
+        /// <param name="tableData">The table data to append.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the Append method cannot be found for the specified data type.</exception>
         public static void AppendDynamic(this DatabaseBuilderBase builder, Type dataType, IList<object> tableData)
         {
             var appendMethod = builder.GetType().GetMethods()

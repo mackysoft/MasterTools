@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Documentation",
+    "\\MasterData",
+    "\\Unity",
+    "\\Unity\\Assets",
+    "\\Unity\\Assets\\Scripts",
+    "\\Unity\\Assets\\Scripts\\MasterMemory"
   ],
-  "SelectedNode": "\\C:\\Users\\thatp\\Source\\Repos\\MasterTools",
+  "SelectedNode": "\\Unity\\Assets\\Scripts\\MasterMemory\\TableBase.cs",
   "PreviewInSolutionExplorer": false
 }

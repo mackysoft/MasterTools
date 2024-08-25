@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\thatp\\source\\repos\\MasterTools\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +18,41 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DatabaseBuilderBaseExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs",
+              "RelativeDocumentMoniker": "Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs",
+              "ToolTip": "C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs",
+              "RelativeToolTip": "Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBaseExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T23:47:07.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DatabaseBuilderBase.cs",
+              "DocumentMoniker": "C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs",
+              "RelativeDocumentMoniker": "Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs",
+              "ToolTip": "C:\\Users\\thatp\\source\\repos\\MasterTools\\Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs",
+              "RelativeToolTip": "Unity\\Assets\\Scripts\\MasterMemory\\DatabaseBuilderBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T23:39:53.269Z",
+              "EditorCaption": ""
             }
           ]
         }
