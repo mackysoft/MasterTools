@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace MasterMemory
 {
+    /// <summary>
+    /// Base class for building a database with memory tables.
+    /// </summary>
     public abstract class DatabaseBuilderBase
     {
         readonly ByteBufferWriter bufferWriter = new ByteBufferWriter();
@@ -16,6 +19,10 @@ namespace MasterMemory
         readonly Dictionary<string, (int offset, int count)> header = new Dictionary<string, (int offset, int count)>();
         readonly MessagePackSerializerOptions options;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseBuilderBase"/> class with specified MessagePack options.
+        /// </summary>
+        /// <param name="options">The MessagePack serializer options.</param>
         public DatabaseBuilderBase(MessagePackSerializerOptions options)
         {
             // options keep null to lazily use default options
@@ -25,6 +32,10 @@ namespace MasterMemory
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseBuilderBase"/> class with specified formatter resolver.
+        /// </summary>
+        /// <param name="resolver">The formatter resolver.</param>
         public DatabaseBuilderBase(IFormatterResolver resolver)
         {
             if (resolver != null)
@@ -33,9 +44,17 @@ namespace MasterMemory
                     .WithCompression(MessagePackCompression.Lz4Block)
                     .WithResolver(resolver);
             }
-
         }
 
+        /// <summary>
+        /// Appends data to the database.
+        /// </summary>
+        /// <typeparam name="T">The type of the data.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="datasource">The data source.</param>
+        /// <param name="indexSelector">The function to select the index.</param>
+        /// <param name="comparer">The comparer for the key.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the type is not annotated with MemoryTableAttribute or the table name is already appended.</exception>
         protected void AppendCore<T, TKey>(IEnumerable<T> datasource, Func<T, TKey> indexSelector, IComparer<TKey> comparer)
         {
             var tableName = typeof(T).GetCustomAttribute<MemoryTableAttribute>();
@@ -60,6 +79,15 @@ namespace MasterMemory
             header.Add(tableName.TableName, (offset, bufferWriter.CurrentOffset - offset));
         }
 
+        /// <summary>
+        /// Sorts the data source using the specified index selector and comparer.
+        /// </summary>
+        /// <typeparam name="TElement">The type of the elements in the data source.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="datasource">The data source.</param>
+        /// <param name="indexSelector">The function to select the index.</param>
+        /// <param name="comparer">The comparer for the key.</param>
+        /// <returns>The sorted array of elements.</returns>
         static TElement[] FastSort<TElement, TKey>(IEnumerable<TElement> datasource, Func<TElement, TKey> indexSelector, IComparer<TKey> comparer)
         {
             var collection = datasource as ICollection<TElement>;
@@ -94,6 +122,10 @@ namespace MasterMemory
             }
         }
 
+        /// <summary>
+        /// Builds the database and returns the byte array representation.
+        /// </summary>
+        /// <returns>The byte array representation of the database.</returns>
         public byte[] Build()
         {
             using (var ms = new MemoryStream())
@@ -103,6 +135,10 @@ namespace MasterMemory
             }
         }
 
+        /// <summary>
+        /// Writes the database to the specified stream.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
         public void WriteToStream(Stream stream)
         {
             MessagePackSerializer.Serialize(stream, header, HeaderFormatterResolver.StandardOptions);
